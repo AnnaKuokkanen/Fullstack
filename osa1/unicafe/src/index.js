@@ -6,14 +6,15 @@ const Statistics = ({good, bad, neutral}) => {
   if (good + bad + neutral === 0) {
       return (
         <div>
-          <p>all {good + neutral + bad}</p>
-          <p>average 0</p>
-          <p>positive 0 %</p>
+          <p>no feedbacks given</p>
         </div>
       )
   } 
   return (
       <div>
+        <p>good {good}</p>
+        <p>neutral {neutral}</p>
+        <p>bad {bad}</p>
         <p>all {good + neutral + bad}</p>
         <p>average {(good - bad)/(good + neutral + bad)}</p>
         <p>positive {good/(good + neutral + bad) * 100} %</p>
@@ -39,9 +40,6 @@ const App = () => {
         bad
       </button>
       <h1>statistics</h1>
-      <p>good {good}</p>
-      <p>neutral {neutral}</p>
-      <p>bad {bad}</p>
       <Statistics good={good} bad={bad} neutral={neutral} />
     </div>
   )
