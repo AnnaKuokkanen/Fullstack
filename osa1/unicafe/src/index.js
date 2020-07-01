@@ -4,21 +4,35 @@ import ReactDOM from 'react-dom'
 
 const Statistics = ({good, bad, neutral}) => {
   if (good + bad + neutral === 0) {
-      return (
-        <div>
-          <p>no feedbacks given</p>
-        </div>
-      )
+    return (
+      <div>
+        <p>no feedbacks given</p>
+      </div>
+    )
   } 
   return (
-      <div>
-        <StatisticLine text='good' value={good} />
-        <StatisticLine text='neutral' value={neutral}/>
-        <StatisticLine text='bad' value={bad} />
-        <StatisticLine text='all' value={good + neutral + bad} />
-        <StatisticLine text='average' value={(good - bad)/(good + neutral + bad)} />
-        <StatisticLine text='positive' value={good/(good + neutral + bad) * 100} text2=' %'/>
-      </div>
+    <div>
+      <table>
+        <tbody>
+          <StatisticLine text='good' value={good} />
+          <StatisticLine text='neutral' value={neutral}/>
+          <StatisticLine text='bad' value={bad} />
+          <StatisticLine text='all' value={good + neutral + bad} />
+          <StatisticLine text='average' value={(good - bad)/(good + neutral + bad)} />
+          <StatisticLine text='positive' value={good/(good + neutral + bad) * 100} text2=' %'/>
+        </tbody>
+      </table>
+    </div>
+  )
+}
+
+const StatisticLine = ({ text, value, text2 }) => {
+  return (
+    <tr>
+      <td>{text}</td>
+      <td>{value}</td>   
+      <td>{text2}</td>     
+    </tr>
   )
 }
 
@@ -27,14 +41,6 @@ const Button = ({ onClick, text }) => {
     <button onClick={onClick}>
       {text}
     </button>
-  )
-}
-
-const StatisticLine = ({ text, value, text2 }) => {
-  return (
-    <div>
-      <p>{text} {value} {text2} </p>
-    </div>
   )
 }
 
