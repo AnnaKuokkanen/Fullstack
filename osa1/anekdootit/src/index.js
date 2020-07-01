@@ -12,18 +12,21 @@ const Button = ({ onClick, text }) => {
 const App = (props) => {
   const [selected, setSelected] = useState(0)
   const [votes, setVotes] = useState(new Array(props.anecdotes.length).fill(0))
+  const [most, setMost] = useState(0)
 
   const handleAnecdote = () => {
     let rand = Math.floor(Math.random() * props.anecdotes.length)
     setSelected(rand)
-    //console.log('random', rand)
   }
 
   const handleVote = () => {
     const copy = {...votes}
     copy[selected] += 1
-    //console.log('ääniä', votes[selected])
     setVotes(copy)
+    let highest = votes[most]
+    if (copy[selected] > highest) {
+      setMost(selected)
+    }
   }
 
   return (
@@ -32,7 +35,10 @@ const App = (props) => {
       <p>has {votes[selected]} votes</p>
       <br></br>
       <Button onClick={handleAnecdote} text='next anecdote' />
-      <Button onClick={handleVote} text='vote' />      
+      <Button onClick={handleVote} text='vote' /> 
+      <h1>Anecdote with most votes</h1>   
+      {props.anecdotes[most]}
+      <p>has {votes[most]} votes</p>
     </div>
   )
 }
