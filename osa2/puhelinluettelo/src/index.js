@@ -17,8 +17,10 @@ const App = () => {
     const newObject = {
       name : newName
     }
-    const p = persons.concat(newObject)
-    setPersons(p)
+    if (persons.filter(person => person.name === newObject.name).length === 0) {
+      const p = persons.concat(newObject)
+      setPersons(p)
+    }
     setNewName('')
     console.log(persons)
   }
