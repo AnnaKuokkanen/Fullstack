@@ -1,6 +1,54 @@
 import React, { useState } from 'react'
 import ReactDOM from 'react-dom'
 
+const Filter = ({handler, value}) => {
+  return (
+    <div>
+      filter shown with
+      <input
+        onChange={handler}
+        value={value}
+      />
+    </div>
+  )
+}
+
+const PersonForm = ({onSubmit, nameHandler, nameValue, numberHandler, numberValue}) => {
+  return (
+    <div>
+      <form onSubmit={onSubmit}>
+        name:
+        <input
+          onChange={nameHandler}
+          value={nameValue}
+        /> 
+        <br></br> 
+        number:
+        <input
+          onChange={numberHandler}
+          value={numberValue}
+        /> 
+        <br></br> 
+        <button type="submit">add</button>
+      </form>
+    </div>
+  )
+}
+
+const People = ({people}) => {
+  return (
+    <div>
+      <ul>
+        {people.map(person =>
+          <ul key={person.name}>
+            {person.name} {person.number}
+          </ul>
+        )}
+      </ul>
+    </div>
+  )
+}
+
 const App = () => {
   const [ persons, setPersons] = useState([
     { name: 'Arto Hellas',
@@ -52,38 +100,13 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
-      filter shown with
-      <input
-        onChange={handleSearch}
-        value={search}
-      />
+      <Filter handler={handleSearch} value={search}/>
       <h2>add a new</h2>
-      <form onSubmit={addPerson}>
-        name:
-        <input
-          onChange={handleNameChange}
-          value={newName}
-        /> 
-        <br></br> 
-        number:
-        <input
-          onChange={handleNumberChange}
-          value={newNumber}
-        /> 
-        <br></br> 
-        <button type="submit">add</button>
-      </form>
+      <PersonForm onSubmit={addPerson} nameHandler={handleNameChange} nameValue={newName} numberHandler={handleNumberChange} numberValue={newNumber} />
       <h2>Numbers</h2>
-      <ul>
-        {people.map(person =>
-          <ul key={person.name}>
-            {person.name} {person.number}
-          </ul>
-        )}
-      </ul>
+      <People people={people} />
     </div>
   )
-
 }
 
 ReactDOM.render(<App />, document.getElementById('root'))
