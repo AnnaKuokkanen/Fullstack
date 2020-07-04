@@ -25,6 +25,7 @@ const Countries = ({ countries }) => {
             </li>
           )}
         </ul>
+        <img className="img-responsive" src={country.flag} alt="flag"/>
       </div>
     )
   }
