@@ -57,11 +57,11 @@ const App = () => {
   const [ search, setSearch ] = useState('')
 
   useEffect(() => {
+    const array = []
     axios
       .get('http://localhost:3001/persons')
       .then(response => {
-        const p = persons.concat(response.data)
-        setPersons(p)
+        setPersons(array.concat(response.data))
       })
   }, [])
 
