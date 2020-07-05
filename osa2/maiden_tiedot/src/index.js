@@ -90,8 +90,6 @@ const App = () => {
     axios
       .get(`http://api.weatherstack.com/current?access_key=${process.env.REACT_APP_API_KEY}&query=${country}`)
       .then(response => {
-        //console.log('vastaus', response.data.current)
-        //console.log(`http://api.weatherstack.com/current?access_key=${process.env.REACT_APP_API_KEY}&query=${country}`)
         if(response.data.current) {
           setWeather(array.concat({temperature : response.data.current.temperature, 
             wind_speed : response.data.current.wind_speed, 
@@ -103,7 +101,6 @@ const App = () => {
         }
       })
   }, [country])
-  //console.log('sää:', weather[0])
 
   const chooseCountry = (c) => {
     setCountry(c)
