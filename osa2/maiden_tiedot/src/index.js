@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import axios from 'axios'
 import ReactDOM from 'react-dom'
 
-const Countries = ({ countries, onClick, temperature, wind_speed, wind_dir }) => {
+const Countries = ({ countries, onClick, temperature, wind_speed, wind_dir, icons }) => {
   if (countries.length > 10) {
     return (
       <div>
@@ -12,7 +12,7 @@ const Countries = ({ countries, onClick, temperature, wind_speed, wind_dir }) =>
   }
   if (countries.length === 1) {
     return(
-      <Country country={countries[0]} temperature={temperature} wind_speed={wind_speed} wind_dir={wind_dir}/>
+      <Country country={countries[0]} temperature={temperature} wind_speed={wind_speed} wind_dir={wind_dir} icons={icons}/>
     )
   }
   return (
@@ -29,7 +29,7 @@ const Countries = ({ countries, onClick, temperature, wind_speed, wind_dir }) =>
   )
 }
 
-const Country = ({ country, temperature, wind_speed, wind_dir }) => {
+const Country = ({ country, temperature, wind_speed, wind_dir, icons }) => {
   return (
     <div>
       <h1>{country.name}</h1>
@@ -44,17 +44,18 @@ const Country = ({ country, temperature, wind_speed, wind_dir }) => {
         )}
       </ul>
       <img className="img-responsive" src={country.flag} width="100" height="50" alt="flag"/>
-      <Weather capital={country.capital} temperature={temperature} wind_speed={wind_speed} wind_dir={wind_dir}/>
+      <Weather capital={country.capital} temperature={temperature} wind_speed={wind_speed} wind_dir={wind_dir} icons={icons} />
     </div>
   )
 }
 
-const Weather = ({ capital, temperature, wind_speed, wind_dir }) => {
+const Weather = ({ capital, temperature, wind_speed, wind_dir, icons }) => {
   return (
     <div>
       <h2>Weather in {capital}</h2>
       <p>temperature: {temperature}</p>
       <p>wind: {wind_speed} mph, direction {wind_dir}</p>
+      <img className="img-responsive" src={icons} width="100" height="80" alt="weather"/>
     </div>
   )
 }
@@ -93,11 +94,13 @@ const App = () => {
         if(response.data.current) {
           setWeather(array.concat({temperature : response.data.current.temperature, 
             wind_speed : response.data.current.wind_speed, 
-            wind_dir : response.data.current.wind_dir}))
+            wind_dir : response.data.current.wind_dir,
+            icons : response.data.current.weather_icons}))
         } else {
           setWeather(array.concat({temperature : undefined, 
             wind_speed : undefined,
-            wind_dir : undefined}))
+            wind_dir : undefined,
+            icons : undefined}))
         }
       })
   }, [country])
@@ -116,17 +119,19 @@ const App = () => {
   let temperature = undefined
   let wind_speed = undefined
   let wind_dir = undefined
+  let icons = undefined
   if (weather[0]) {
     temperature = weather[0].temperature
     wind_speed = weather[0].wind_speed
     wind_dir = weather[0].wind_dir
+    icons = weather[0].icons
   } 
 
   return (
     <div>
       find countries
       <Filter handler={handleChange} value={country} />
-      <Countries countries={cntrs} onClick={chooseCountry} temperature={temperature} wind_speed={wind_speed} wind_dir={wind_dir} />
+      <Countries countries={cntrs} onClick={chooseCountry} temperature={temperature} wind_speed={wind_speed} wind_dir={wind_dir} icons={icons}/>
     </div>
   )
 }
