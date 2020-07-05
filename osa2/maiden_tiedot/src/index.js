@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import axios from 'axios'
 import ReactDOM from 'react-dom'
 
-const Countries = ({ countries, onClick }) => {
+const Countries = ({ countries, onClick, temperature, wind_speed, wind_dir }) => {
   if (countries.length > 10) {
     return (
       <div>
@@ -12,10 +12,9 @@ const Countries = ({ countries, onClick }) => {
   }
   if (countries.length === 1) {
     return(
-      <Country country={countries[0]}/>
+      <Country country={countries[0]} temperature={temperature} wind_speed={wind_speed} wind_dir={wind_dir}/>
     )
   }
-
   return (
     <div>
       <ul>
@@ -30,7 +29,7 @@ const Countries = ({ countries, onClick }) => {
   )
 }
 
-const Country = ({ country }) => {
+const Country = ({ country, temperature, wind_speed, wind_dir }) => {
   return (
     <div>
       <h1>{country.name}</h1>
@@ -44,7 +43,18 @@ const Country = ({ country }) => {
           </li>
         )}
       </ul>
-      <img className="img-responsive" src={country.flag} alt="flag"/>
+      <img className="img-responsive" src={country.flag} width="100" height="50" alt="flag"/>
+      <Weather capital={country.capital} temperature={temperature} wind_speed={wind_speed} wind_dir={wind_dir}/>
+    </div>
+  )
+}
+
+const Weather = ({ capital, temperature, wind_speed, wind_dir }) => {
+  return (
+    <div>
+      <h2>Weather in {capital}</h2>
+      <p>temperature: {temperature}</p>
+      <p>wind: {wind_speed} mph, direction {wind_dir}</p>
     </div>
   )
 }
@@ -64,6 +74,7 @@ const Filter = ({handler, value}) => {
 const App = () => {
   const [countries, setCountries] = useState([])
   const [country, setCountry] = useState('')
+  const [weather, setWeather] = useState([])
 
   useEffect(() => {
     const array = []
@@ -73,11 +84,29 @@ const App = () => {
         setCountries(array.concat(response.data))
       })
   }, [])
+  
+  useEffect(() => {
+    const array = []
+    axios
+      .get(`http://api.weatherstack.com/current?access_key=${process.env.REACT_APP_API_KEY}&query=${country}`)
+      .then(response => {
+        //console.log('vastaus', response.data.current)
+        //console.log(`http://api.weatherstack.com/current?access_key=${process.env.REACT_APP_API_KEY}&query=${country}`)
+        if(response.data.current) {
+          setWeather(array.concat({temperature : response.data.current.temperature, 
+            wind_speed : response.data.current.wind_speed, 
+            wind_dir : response.data.current.wind_dir}))
+        } else {
+          setWeather(array.concat({temperature : undefined, 
+            wind_speed : undefined,
+            wind_dir : undefined}))
+        }
+      })
+  }, [country])
+  //console.log('sää:', weather[0])
 
   const chooseCountry = (c) => {
-    console.log('klikataan')
     setCountry(c)
-    console.log('country:', country)
   }
 
   const handleChange = (event) => {
@@ -86,13 +115,21 @@ const App = () => {
   }
 
   const cntrs = countries.filter(cntr => cntr.name.toLowerCase().includes(country.toLowerCase()))
-  console.log('cntrs', cntrs)
+
+  let temperature = undefined
+  let wind_speed = undefined
+  let wind_dir = undefined
+  if (weather[0]) {
+    temperature = weather[0].temperature
+    wind_speed = weather[0].wind_speed
+    wind_dir = weather[0].wind_dir
+  } 
 
   return (
     <div>
       find countries
       <Filter handler={handleChange} value={country} />
-      <Countries countries={cntrs} onClick={chooseCountry} />
+      <Countries countries={cntrs} onClick={chooseCountry} temperature={temperature} wind_speed={wind_speed} wind_dir={wind_dir} />
     </div>
   )
 }
