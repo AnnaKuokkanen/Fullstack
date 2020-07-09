@@ -3,12 +3,15 @@ import personService from './services/persons'
 import Filter from './components/Filter'
 import People from './components/People'
 import PersonForm from './components/PersonForm'
+import Notification from './components/Notification'
+import './index.css'
 
 const App = () => {
     const [ persons, setPersons] = useState([]) 
     const [ newName, setNewName ] = useState('')
     const [ newNumber, setNewNumber ] = useState('')
     const [ search, setSearch ] = useState('')
+    const [ notificationMessage, setNotificationMessage ] = useState('')
   
     useEffect(() => {
       const array = []
@@ -48,10 +51,14 @@ const App = () => {
           })
         const p = persons.concat(newObject)
         setPersons(p)
+        setNotificationMessage(`${newObject.name} is successfully added to phonebook`)
+        setTimeout(() => {
+          setNotificationMessage('')
+        }, 5000)
       }
       else {
-        const person = persons.filter(p => p.name === newObject.name)
-        updatePerson(person[0].id)
+        const person = persons.filter(p => p.name === newObject.name)[0]
+        updatePerson(person.id)
       }
       setNewName('')
       setNewNumber('')
@@ -59,13 +66,17 @@ const App = () => {
     }
 
     const removePerson = (id) => {
-      const person = persons.filter(person => person.id === id)
-      const result = window.confirm(`Delete ${person[0].name}?`)
+      const person = persons.filter(person => person.id === id)[0]
+      const result = window.confirm(`Delete ${person.name}?`)
       if (result) {
         personService
           .remove(id)
         const array = persons.filter(person => person.id !== id)
         setPersons(array)
+        setNotificationMessage(`${person.name} is successfully removed from phonebook`)
+        setTimeout(() => {
+          setNotificationMessage('')
+        }, 5000)
       }
       
     }
@@ -78,6 +89,10 @@ const App = () => {
         personService
           .update(id, newPerson)
         setPersons(persons.map(person => person.id !== id ? person : newPerson))
+        setNotificationMessage(`${person.name}'s number is successfully updated`)
+        setTimeout(() => {
+          setNotificationMessage('')
+        }, 5000)
       }
     }
   
@@ -88,6 +103,7 @@ const App = () => {
     return (
       <div>
         <h2>Phonebook</h2>
+        <Notification message={notificationMessage} />
         <Filter handler={handleSearch} value={search}/>
         <h2>add a new</h2>
         <PersonForm onSubmit={addPerson} nameHandler={handleNameChange} nameValue={newName} numberHandler={handleNumberChange} numberValue={newNumber} />
