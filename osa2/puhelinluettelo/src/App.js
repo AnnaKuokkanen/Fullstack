@@ -66,6 +66,8 @@ const App = () => {
       }
       else {
         const person = persons.filter(p => p.name === newObject.name)[0]
+        //console.log('henkilö on olemassa: ', person)
+        //console.log('henkilön id on ', person.id)
         updatePerson(person.id)
       }
       setNewName('')
@@ -73,8 +75,10 @@ const App = () => {
       setSearch('')
     }
 
-    const removePerson = (id) => {
-      const person = persons.filter(person => person.id === id)[0]
+    const removePerson = id => {
+      //console.log('poistetaan henkilö, jonka id on', id)
+      const person = persons.find(p => p.id === id)
+      //console.log('tämä henkilö on ', person)
       const result = window.confirm(`Delete ${person.name}?`)
       if (result) {
         personService
@@ -90,9 +94,12 @@ const App = () => {
     }
 
     const updatePerson = id => {
+      //console.log('yritetään päivittää henkilöä, jonka id on', id)
       const person = persons.find(p => p.id === id)
+      //console.log('tämä henkilö on ', person)
       const result = window.confirm(`${person.name} is already in the phonebook. Replace ${person.name}?`)
       const newPerson = {...person, number: newNumber}
+      //console.log('päivitetty henkilö: ', newPerson)
       if (result) {
         personService
           .update(id, newPerson)
@@ -116,7 +123,6 @@ const App = () => {
               setErrorMessage('')
             }, 5000)
           })
-        
       }
     }
   
@@ -129,7 +135,7 @@ const App = () => {
         <h2>Phonebook</h2>
         <Notification message={notificationMessage} />
         <Error message={errorMessage} />
-        <Filter handler={handleSearch} value={search}/>
+        <Filter handler={handleSearch} value={search} />
         <h2>add a new</h2>
         <PersonForm onSubmit={addPerson} nameHandler={handleNameChange} nameValue={newName} numberHandler={handleNumberChange} numberValue={newNumber} />
         <h2>Numbers</h2>
