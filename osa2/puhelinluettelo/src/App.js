@@ -34,7 +34,8 @@ const App = () => {
       setSearch(event.target.value)
     }
   
-    const addPerson = () => {
+    const addPerson = (event) => {
+      event.preventDefault()
       const newObject = {
         name : newName,
         number : newNumber
@@ -49,12 +50,12 @@ const App = () => {
         setPersons(p)
       }
       else {
-        alert(`${newName} is already added to phonebook`)
+        const person = persons.filter(p => p.name === newObject.name)
+        updatePerson(person[0].id)
       }
       setNewName('')
       setNewNumber('')
       setSearch('')
-      console.log(persons)
     }
 
     const removePerson = (id) => {
@@ -67,6 +68,17 @@ const App = () => {
         setPersons(array)
       }
       
+    }
+
+    const updatePerson = id => {
+      const person = persons.find(p => p.id === id)
+      const result = window.confirm(`${person.name} is already in the phonebook. Replace ${person.name}?`)
+      const newPerson = {...person, number: newNumber}
+      if (result) {
+        personService
+          .update(id, newPerson)
+        setPersons(persons.map(person => person.id !== id ? person : newPerson))
+      }
     }
   
     const people = search.length === 0
