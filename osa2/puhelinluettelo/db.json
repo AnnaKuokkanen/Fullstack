@@ -2,7 +2,7 @@
   "persons": [
     {
       "name": "sansa stark",
-      "number": "",
+      "number": "112",
       "id": 7
     },
     {
@@ -12,7 +12,7 @@
     },
     {
       "name": "catelyn stark",
-      "number": "",
+      "number": "1224",
       "id": 9
     },
     {
