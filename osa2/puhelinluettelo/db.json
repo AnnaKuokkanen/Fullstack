@@ -1,59 +1,19 @@
 {
   "persons": [
     {
-      "name": "Arto Hellas",
-      "number": "040-123456",
+      "name": "Ned Stark",
+      "number": "934-22546",
       "id": 1
     },
     {
-      "name": "Ada Lovelace",
-      "number": "39-44-5323523",
+      "name": "Catelyn Stark",
+      "number": "483-2356543",
       "id": 2
     },
     {
-      "name": "Dan Abramov",
-      "number": "12-43-234345",
+      "name": "Arya Stark",
+      "number": "3523522523",
       "id": 3
-    },
-    {
-      "name": "Mary Poppendieck",
-      "number": "39-23-6423122",
-      "id": 4
-    },
-    {
-      "name": "Alan Turing",
-      "number": "020-0432240",
-      "id": 5
-    },
-    {
-      "name": "Grace Hopper",
-      "number": "020-3457783",
-      "id": 6
-    },
-    {
-      "name": "Sheldon Cooper",
-      "number": "349-8294369",
-      "id": 7
-    },
-    {
-      "name": "Charles Babbage",
-      "number": "030-235794",
-      "id": 8
-    },
-    {
-      "name": "Harry Potter",
-      "number": "99238123",
-      "id": 9
-    },
-    {
-      "name": "Ron Weasely",
-      "number": "050-038424",
-      "id": 10
-    },
-    {
-      "name": "Hermione Granger",
-      "number": "949-1493491",
-      "id": 11
     }
   ]
 }

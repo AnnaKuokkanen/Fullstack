@@ -34,8 +34,7 @@ const App = () => {
       setSearch(event.target.value)
     }
   
-    const addPerson = (event) => {
-      event.preventDefault()
+    const addPerson = () => {
       const newObject = {
         name : newName,
         number : newNumber
@@ -57,6 +56,18 @@ const App = () => {
       setSearch('')
       console.log(persons)
     }
+
+    const removePerson = (id) => {
+      const person = persons.filter(person => person.id === id)
+      const result = window.confirm(`Delete ${person[0].name}?`)
+      if (result) {
+        personService
+          .remove(id)
+        const array = persons.filter(person => person.id !== id)
+        setPersons(array)
+      }
+      
+    }
   
     const people = search.length === 0
       ? persons
@@ -69,7 +80,7 @@ const App = () => {
         <h2>add a new</h2>
         <PersonForm onSubmit={addPerson} nameHandler={handleNameChange} nameValue={newName} numberHandler={handleNumberChange} numberValue={newNumber} />
         <h2>Numbers</h2>
-        <People people={people} />
+        <People people={people} onClick={removePerson} />
       </div>
     )
 }
