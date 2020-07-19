@@ -1,19 +1,5 @@
 {
   "persons": [
-    {
-      "name": "brian may",
-      "number": "112",
-      "id": 5
-    },
-    {
-      "name": "freddie mercury",
-      "number": "",
-      "id": 6
-    },
-    {
-      "name": "roger taylor",
-      "number": "223",
-      "id": 7
-    }
+    
   ]
 }
