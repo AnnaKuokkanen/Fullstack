@@ -63,11 +63,19 @@ const App = () => {
               setNotificationMessage('')
             }, 5000)
           )
+          .catch(error => {
+            console.log('Virhe', error.response.data.error)
+            setNotificationMessage('')
+            setErrorMessage(
+              error.response.data.error
+            )
+            setTimeout(() => {
+              setErrorMessage('')
+            }, 5000)
+          })
       }
       else {
         const person = persons.filter(p => p.name === newObject.name)[0]
-        //console.log('henkilö on olemassa: ', person)
-        //console.log('henkilön id on ', person.id)
         updatePerson(person.id)
       }
       setNewName('')
@@ -76,9 +84,7 @@ const App = () => {
     }
 
     const removePerson = id => {
-      //console.log('poistetaan henkilö, jonka id on', id)
       const person = persons.find(p => p.id === id)
-      //console.log('tämä henkilö on ', person)
       const result = window.confirm(`Delete ${person.name}?`)
       if (result) {
         personService
@@ -94,12 +100,9 @@ const App = () => {
     }
 
     const updatePerson = id => {
-      //console.log('yritetään päivittää henkilöä, jonka id on', id)
       const person = persons.find(p => p.id === id)
-      //console.log('tämä henkilö on ', person)
       const result = window.confirm(`${person.name} is already in the phonebook. Replace ${person.name}?`)
       const newPerson = {...person, number: newNumber}
-      //console.log('päivitetty henkilö: ', newPerson)
       if (result) {
         personService
           .update(id, newPerson)
