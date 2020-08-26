@@ -16,7 +16,6 @@ blogsRouter.post('/', (request, response) => {
     .save()
     .then(result => {
       response.status(201).json(result)
-      mongoose.connection.close()
     })
 })
 
