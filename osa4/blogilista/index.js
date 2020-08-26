@@ -12,6 +12,14 @@ const blogSchema = mongoose.Schema({
   likes: Number
 })
 
+blogSchema.set('toJSON', {
+  transform: (document, returnedObject) => {
+    returnedObject.id = returnedObject._id.toString()
+    delete returnedObject._id
+    delete returnedObject.__v
+  }
+})
+
 const Blog = mongoose.model('Blog', blogSchema)
 
 if (process.argv.length<3) {
@@ -22,7 +30,7 @@ if (process.argv.length<3) {
 const password = process.argv[2]
 
 const mongoUrl = `mongodb+srv://blogilista:${password}@blogilista.l4gvs.mongodb.net/<dbname>?retryWrites=true&w=majority`
-mongoose.connect(mongoUrl, { useNewUrlParser: true, useUnifiedTopology: true})
+mongoose.connect(mongoUrl, { useNewUrlParser: true, useUnifiedTopology: true })
 
 app.use(cors())
 app.use(express.json())
@@ -42,6 +50,7 @@ app.post('/api/blogs', (request, response) => {
     .save()
     .then(result => {
       response.status(201).json(result)
+      mongoose.connection.close()
     })
 })
 
