@@ -5,6 +5,7 @@ const app = require('../app')
 const api = supertest(app)
 
 const Blog = require('../models/blog')
+const { count } = require('../models/blog')
 
 const initialBlogs = [
     {
@@ -33,7 +34,7 @@ const initialBlogs = [
 
 test('app is returning correct amount of blogs', async () => {
   const blogs = await api.get('/api/blogs')
-  expect(blogs.length === initialBlogs.length)
+  expect(blogs.body.length === initialBlogs.length)
 })
 
 test('app is returning json formatted blogs', async () => {
@@ -41,6 +42,12 @@ test('app is returning json formatted blogs', async () => {
     .get('/api/blogs')
     .expect(200)
     .expect('Content-Type', /application\/json/)
+})
+
+test('id is in the field valled id', async () => {
+  const blogs = await api.get('/api/blogs')
+
+  blogs.body.forEach(blog => expect(blog.id).toBeDefined())
 })
 
 afterAll(() => {
