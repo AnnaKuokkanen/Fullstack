@@ -41,6 +41,12 @@ test('app is returning correct amount of blogs', () => {
   });
 })
 
+test('app is returning json formatted blogs', () => {
+  Blog.find({}).then(blogs => {
+    blogs.forEach(blog => expect('Content-Type', /application\/json/))
+  })
+})
+
 afterAll(() => {
   mongoose.connection.close()
 })
