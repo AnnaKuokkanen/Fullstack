@@ -31,20 +31,16 @@ const initialBlogs = [
     await blogObject.save()
   })
 
-test('app is returning correct amount of blogs', () => {
-  //api.get('api/blogs/')
-    //.then(
-  //)
-
-  Blog.find({}).then(blogs => {
-    expect(blogs.length === 2)
-  });
+test('app is returning correct amount of blogs', async () => {
+  const blogs = await api.get('/api/blogs')
+  expect(blogs.length === initialBlogs.length)
 })
 
-test('app is returning json formatted blogs', () => {
-  Blog.find({}).then(blogs => {
+test('app is returning json formatted blogs', async () => {
+  await api.get('/api/blogs')
+  blogs => {
     blogs.forEach(blog => expect('Content-Type', /application\/json/))
-  })
+  }
 })
 
 afterAll(() => {
