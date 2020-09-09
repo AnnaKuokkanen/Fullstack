@@ -37,10 +37,10 @@ test('app is returning correct amount of blogs', async () => {
 })
 
 test('app is returning json formatted blogs', async () => {
-  await api.get('/api/blogs')
-  blogs => {
-    blogs.forEach(blog => expect('Content-Type', /application\/json/))
-  }
+  await api
+    .get('/api/blogs')
+    .expect(200)
+    .expect('Content-Type', /application\/json/)
 })
 
 afterAll(() => {
