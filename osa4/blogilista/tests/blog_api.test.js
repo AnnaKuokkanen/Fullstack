@@ -63,17 +63,15 @@ test('blog can be added to /api/blogs', async () => {
     .expect(201)
     .expect('Content-Type', /application\/json/)   
 
-  const blogs = await api.get('/api/blogs')
+  const allBlogs = await api.get('/api/blogs')
+  
+  const blogs = allBlogs.body.map(b => [b.title, b.author, b.url, b.likes])
+  const blog = [newBlog.title, newBlog.author, newBlog.url, newBlog.likes]
 
-  expect(blogs.body.length).toBe(initialBlogs.length + 1)
+  console.log('BLOGIT', blogs)
 
-  expect(blogs.body[2].author).toBe(newBlog.author)
-
-  expect(blogs.body[2].title).toBe(newBlog.title)
-
-  expect(blogs.body[2].url).toBe(newBlog.url)
-
-  expect(blogs.body[2].likes).toBe(newBlog.likes)
+  expect(blogs).toHaveLength(initialBlogs.length + 1)
+  expect(blogs).toContainEqual(blog)
 })
 
 afterAll(() => {
