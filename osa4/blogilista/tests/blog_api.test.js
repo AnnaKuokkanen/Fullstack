@@ -68,12 +68,34 @@ test('blog can be added to /api/blogs', async () => {
   const blogs = allBlogs.body.map(b => [b.title, b.author, b.url, b.likes])
   const blog = [newBlog.title, newBlog.author, newBlog.url, newBlog.likes]
 
-  console.log('BLOGIT', blogs)
-
   expect(blogs).toHaveLength(initialBlogs.length + 1)
   expect(blogs).toContainEqual(blog)
 })
 
 afterAll(() => {
   mongoose.connection.close()
+})
+
+test('when likes are not specified, they are zero', async () => {
+  const newBlog = {
+    title: 'Plant life', 
+    author: 'Michael',  
+    url:'plants.com'
+  }
+
+  await api
+    .post('/api/blogs')
+    .send(newBlog)
+    .expect(201)
+    .expect('Content-Type', /application\/json/) 
+
+  const allBlogs = await api.get('/api/blogs')
+
+  const blogs = allBlogs.body.map(b => [b.title, b.author, b.url, b.likes])
+  const blog = [newBlog.title, newBlog.author, newBlog.url, 0]
+
+  console.log('BLOGIT', blogs)
+
+  expect(blogs).toHaveLength(initialBlogs.length + 1)
+  expect(blogs).toContainEqual(blog)
 })
