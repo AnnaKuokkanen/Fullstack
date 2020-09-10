@@ -99,3 +99,15 @@ test('when likes are not specified, they are zero', async () => {
   expect(blogs).toHaveLength(initialBlogs.length + 1)
   expect(blogs).toContainEqual(blog)
 })
+
+test('if blog does not have title and url it is rejected', async () => {
+  const newBlog = {
+    author: 'Michael',  
+    likes: 2
+  }
+
+  await api
+    .post('/api/blogs')
+    .send(newBlog)
+    .expect(400)
+})

@@ -1,0 +1,7 @@
+POST http://localhost:3003/api/blogs 
+Content-Type: application/json
+
+{
+  "url": "healthheather.com",
+  "likes": 0
+}
