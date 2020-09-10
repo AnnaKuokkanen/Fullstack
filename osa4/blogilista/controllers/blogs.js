@@ -10,7 +10,16 @@ blogsRouter.get('/', (request, response) => {
 })
   
 blogsRouter.post('/', (request, response) => {
-  blog = new Blog(request.body)
+  if (request.body.likes === undefined) {
+    blog = new Blog({
+      title : request.body.title,
+      author: request.body.author,
+      url: request.body.url,
+      likes: 0 
+    })
+  } else {
+    blog = new Blog(request.body)
+  }
 
   blog
     .save()
