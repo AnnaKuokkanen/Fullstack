@@ -5,7 +5,6 @@ const app = require('../app')
 const api = supertest(app)
 
 const Blog = require('../models/blog')
-const { count } = require('../models/blog')
 
 const initialBlogs = [
     {
@@ -44,10 +43,37 @@ test('app is returning json formatted blogs', async () => {
     .expect('Content-Type', /application\/json/)
 })
 
-test('id is in the field valled id', async () => {
+test('id is in the field called id', async () => {
   const blogs = await api.get('/api/blogs')
 
   blogs.body.forEach(blog => expect(blog.id).toBeDefined())
+})
+
+test('blog can be added to /api/blogs', async () => {
+  const newBlog = new Blog({
+    title: 'Plant life', 
+    author: 'Michael',  
+    url:'plants.com', 
+    likes: 50
+  })
+    
+  await api
+    .post('/api/blogs')
+    .send(newBlog)
+    .expect(201)
+    .expect('Content-Type', /application\/json/)   
+
+  const blogs = await api.get('/api/blogs')
+
+  expect(blogs.body.length).toBe(initialBlogs.length + 1)
+
+  expect(blogs.body[2].author).toBe(newBlog.author)
+
+  expect(blogs.body[2].title).toBe(newBlog.title)
+
+  expect(blogs.body[2].url).toBe(newBlog.url)
+
+  expect(blogs.body[2].likes).toBe(newBlog.likes)
 })
 
 afterAll(() => {
