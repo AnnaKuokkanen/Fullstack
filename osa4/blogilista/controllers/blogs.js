@@ -1,5 +1,6 @@
 const blogsRouter = require('express').Router()
 const Blog = require('../models/blog')
+const { result } = require('lodash')
 
 blogsRouter.get('/', (request, response) => {
   Blog
@@ -10,22 +11,26 @@ blogsRouter.get('/', (request, response) => {
 })
   
 blogsRouter.post('/', (request, response) => {
-  if (request.body.likes === undefined) {
-    blog = new Blog({
-      title : request.body.title,
-      author: request.body.author,
-      url: request.body.url,
-      likes: 0 
-    })
+  if (request.body.author === undefined || request.body.title === undefined) {
+    response.status(400).json(request.body)
   } else {
-    blog = new Blog(request.body)
-  }
+    if (request.body.likes === undefined) {
+      blog = new Blog({
+        title : request.body.title,
+        author: request.body.author,
+        url: request.body.url,
+        likes: 0 
+      })
+    } else {
+      blog = new Blog(request.body)
+    }
 
-  blog
-    .save()
-    .then(result => {
-      response.status(201).json(result)
+    blog
+      .save()
+      .then(result => {
+        response.status(201).json(result)
     })
+  }
 })
 
 module.exports = blogsRouter
