@@ -1,6 +1,7 @@
 const blogsRouter = require('express').Router()
 const Blog = require('../models/blog')
 const { result } = require('lodash')
+const { request } = require('express')
 
 blogsRouter.get('/', (request, response) => {
   Blog
@@ -39,8 +40,19 @@ blogsRouter.delete('/:id', async (request, response) => {
   await Blog
     .findByIdAndRemove(id)
   
-  await response.status(204).end()
+  response.status(204).end()
 
+})
+
+blogsRouter.put('/:id', async (request, response) => {
+  const id = request.params.id
+  const body = request.body
+
+  const result = await Blog 
+    .findByIdAndUpdate(id, body)
+
+  response.status(200).json(result)
+  
 })
 
 module.exports = blogsRouter
