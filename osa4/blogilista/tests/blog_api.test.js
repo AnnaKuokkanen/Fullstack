@@ -21,15 +21,15 @@ const initialBlogs = [
     },
   ]
   
-  beforeEach(async () => {
-    await Blog.deleteMany({})
-  
-    let blogObject = new Blog(initialBlogs[0])
-    await blogObject.save()
-  
-    blogObject = new Blog(initialBlogs[1])
-    await blogObject.save()
-  })
+beforeEach(async () => {
+  await Blog.deleteMany({})
+
+  let blogObject = new Blog(initialBlogs[0])
+  await blogObject.save()
+
+  blogObject = new Blog(initialBlogs[1])
+  await blogObject.save()
+})
 
 test('app is returning correct amount of blogs', async () => {
   const blogs = await api.get('/api/blogs')
@@ -72,10 +72,6 @@ test('blog can be added to /api/blogs', async () => {
   expect(blogs).toContainEqual(blog)
 })
 
-afterAll(() => {
-  mongoose.connection.close()
-})
-
 test('when likes are not specified, they are zero', async () => {
   const newBlog = {
     title: 'Plant life', 
@@ -110,4 +106,8 @@ test('if blog does not have title and url it is rejected', async () => {
     .post('/api/blogs')
     .send(newBlog)
     .expect(400)
+})
+
+afterAll(() => {
+  mongoose.connection.close()
 })
