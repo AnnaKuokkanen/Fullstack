@@ -2,41 +2,42 @@ const blogsRouter = require('express').Router()
 const Blog = require('../models/blog')
 const User = require('../models/user')
 
-blogsRouter.get('/', (request, response) => {
-  Blog
-    .find({})
-    .then(blogs => {
-      response.json(blogs)
-    })
+blogsRouter.get('/', async (request, response) => {
+  const blogs = await Blog.find({})
+
+  response.json(blogs)
 })
   
 blogsRouter.post('/', async (request, response) => {
   if (request.body.author === undefined || request.body.title === undefined) {
     response.status(400).json(request.body)
   } else {
-    const user = await User.findById(request.body.userId)
-    if (request.body.likes === undefined) {
+    const body = request.body
+    const user = await User.findById(body.userId)
+    const userInfo = (({ name, username, id }) => ({ name, username, id }))(user)
+
+    if (body.likes === undefined) {
       blog = new Blog({
-        title : request.body.title,
-        author: request.body.author,
-        user: user._id,
-        url: request.body.url,
+        title : body.title,
+        author: body.author,
+        user: userInfo,
+        url: body.url,
         likes: 0 
       })
     } else {
       blog = new Blog({
-        title: request.body.title,
-        author:request.body.author, 
-        user: user._id,
-        url: request.body.url,
-        likes: request.body.likes
+        title: body.title,
+        author: body.author, 
+        user: userInfo,
+        url: body.url,
+        likes: body.likes
       })
     }
 
     const savedBlog = await blog.save()
-    user.blogs = user.blogs.concat(savedBlog._id)
+    const blogInfo = (({title, author, url, id}) => ({title, author, url, id}))(savedBlog)
+    user.blogs = user.blogs.concat(blogInfo)
     await user.save()
-
     response.status(201).json(savedBlog)
   }
 })
@@ -44,11 +45,9 @@ blogsRouter.post('/', async (request, response) => {
 blogsRouter.delete('/:id', async (request, response) => {
   const id = request.params.id
 
-  await Blog
-    .findByIdAndRemove(id)
+  await Blog.findByIdAndRemove(id)
   
   response.status(204).end()
-
 })
 
 blogsRouter.put('/:id', async (request, response) => {
@@ -58,8 +57,7 @@ blogsRouter.put('/:id', async (request, response) => {
   const result = await Blog 
     .findByIdAndUpdate(id, body)
 
-  response.status(200).json(result)
-  
+  response.status(200).json(result) 
 })
 
 module.exports = blogsRouter
