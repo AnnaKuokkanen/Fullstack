@@ -4,7 +4,7 @@ const blogSchema = mongoose.Schema({
   title: String,
   author: String,
   user: {
-    type: mongoose.Schema.Types.Mixed,
+    type: mongoose.Schema.Types.ObjectId,
     ref: 'User'
   },
   url: String,
