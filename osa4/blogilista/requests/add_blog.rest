@@ -1,10 +1,10 @@
 POST http://localhost:3003/api/blogs 
 Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImFubmEiLCJpZCI6IjVmNjlmMDMyM2VkNGY1M2ZmMjE0NzZhMSIsImlhdCI6MTYwMDc3ODQzNX0.EDPiL-QzhUouXu1UYtH_aacFlQuAv9fAPbf3LoT4eHw
 
 {
   "title": "MyBlog", 
-  "author": "Mary", 
-  "userId": "5f6736286136fa59cc950e3a",
+  "author": "Cate", 
   "url": "myblog.com",
   "likes": 0
 }
