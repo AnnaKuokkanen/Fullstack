@@ -1,10 +1,10 @@
 POST http://localhost:3003/api/blogs 
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImFubmEiLCJpZCI6IjVmNjlmMDMyM2VkNGY1M2ZmMjE0NzZhMSIsImlhdCI6MTYwMDc3ODQzNX0.EDPiL-QzhUouXu1UYtH_aacFlQuAv9fAPbf3LoT4eHw
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InBvdHRlciIsImlkIjoiNWY2YTZlMTVkOTQxMTUzYjkyOGY2Mzc2IiwiaWF0IjoxNjAwODExMjA0fQ.SVbN30CuwJYSe-2fz2cbKbXg8ZM0XODL4-QyTapsDE4
 
 {
   "title": "MyBlog", 
-  "author": "Anna", 
-  "url": "annasblog.com",
-  "likes": 0
+  "author": "Mary", 
+  "url": "marysblog.com",
+  "likes": 24
 }
