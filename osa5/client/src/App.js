@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from 'react'
 import Blog from './components/Blog'
 import blogService from './services/blogs'
+import loginService from './services/login'
 
 const App = () => {
   const [blogs, setBlogs] = useState([])
+  const [user, setUser] = useState(null)
   const [username, setUsername] = useState('') 
   const [password, setPassword] = useState('') 
-  const [logged, setLogged] = useState(false)
+  const [errorMessage, setErrorMessage] = useState(null)
 
   useEffect(() => {
     blogService.getAll().then(blogs =>
@@ -14,21 +16,40 @@ const App = () => {
     )  
   }, [])
 
-  const handleLogin = (event) => {
+  const handleLogin = async (event) => {
     event.preventDefault()
-    console.log('logging in with', username, password)
-    setLogged(true)
+    try {
+      const user = await loginService.login({
+        username, 
+        password,
+      })
+      setUser(user)
+    } catch (exception) {
+      setUser(null)
+      console.log('No success');
+      setErrorMessage('wrong credentials')
+      setTimeout(() => {
+        setErrorMessage(null)
+      }, 5000)
+    } 
   }
 
+  const handleLogout = (event) => {
+    event.preventDefault()
+    setUsername('')
+    setPassword('')
+    setUser(null)
+  }
   return (
     <div>
-      {logged ? (
+      {user !== null ? (
         <div>
           <h2>blogs</h2>
-          <p>{username} logged in</p>
+          <p>{user.name} logged in</p>
           {blogs.map(blog =>
             <Blog key={blog.id} blog={blog} />
           )}
+          <button onClick={handleLogout}>logout</button>
         </div>
       ) : (
         <div>
