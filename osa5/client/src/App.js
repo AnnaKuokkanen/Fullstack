@@ -16,6 +16,14 @@ const App = () => {
     )  
   }, [])
 
+  useEffect(() => {
+    const loggedUserJSON = window.localStorage.getItem('user')
+    if (loggedUserJSON) {
+      const user = JSON.parse(loggedUserJSON)
+      setUser(user)
+    }
+  }, []) 
+
   const handleLogin = async (event) => {
     event.preventDefault()
     try {
@@ -24,8 +32,8 @@ const App = () => {
         password,
       })
       setUser(user)
+      window.localStorage.setItem('user', JSON.stringify(user))
     } catch (exception) {
-      setUser(null)
       console.log('No success');
       setErrorMessage('wrong credentials')
       setTimeout(() => {
@@ -38,8 +46,10 @@ const App = () => {
     event.preventDefault()
     setUsername('')
     setPassword('')
+    window.localStorage.removeItem('user')
     setUser(null)
   }
+
   return (
     <div>
       {user !== null ? (
