@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import Blog from './components/Blog'
+import BlogForm from './forms/BlogForm'
+import LoginForm from './forms/LoginForm'
 import blogService from './services/blogs'
 import loginService from './services/login'
 
@@ -64,6 +66,26 @@ const App = () => {
     setUrl('')
   }
 
+  const handleUsername = (value) => {
+    setUsername(value)
+  }
+
+  const handlePassword = (value) => {
+    setPassword(value)
+  }
+
+  const handleTitle = (value) => {
+    setTitle(value)
+  }
+
+  const handleAuthor = (value) => {
+    setAuthor(value)
+  }
+
+  const handleUrl = (value) => {
+    setUrl(value)
+  }
+
   return (
     <div>
       {user !== null ? (
@@ -73,63 +95,26 @@ const App = () => {
           {blogs.map(blog =>
             <Blog key={blog.id} blog={blog} />
           )}
-          <form onSubmit={handleAddBlog}>
-            <div>
-              title:
-              <input
-                type="text"
-                value={title}
-                name="Title"
-                onChange={({ target }) => setTitle(target.value)}
-              />
-            </div>
-            <div>
-              author:
-              <input
-                type="text"
-                value={author}
-                name="Author"
-                onChange={({ target }) => setAuthor(target.value)}
-              />
-            </div>
-            <div>
-              url:
-              <input
-                type="text"
-                value={url}
-                name="Url"
-                onChange={({ target }) => setUrl(target.value)}
-              />
-            </div>
-            <button type="submit">create</button>
-          </form>
+
+          <BlogForm 
+            handleAddBlog={handleAddBlog} 
+            title={title} 
+            author={author} url={url} 
+            handleTitleChange={handleTitle} 
+            handleAuthorChange={handleAuthor} 
+            handleUrlChange={handleUrl} 
+          />
+
           <button onClick={handleLogout}>logout</button>
         </div>
       ) : (
-        <div>
-          <h2>Login</h2>
-          <form onSubmit={handleLogin}>
-            <div>
-              username
-                <input
-                type="text"
-                value={username}
-                name="Username"
-                onChange={({ target }) => setUsername(target.value)}
-              />
-            </div>
-            <div>
-              password
-                <input
-                type="password"
-                value={password}
-                name="Password"
-                onChange={({ target }) => setPassword(target.value)}
-              />
-            </div>
-            <button type="submit">login</button>
-          </form>
-        </div>
+        <LoginForm 
+          handleLogin={handleLogin} 
+          username={username} 
+          password={password} 
+          handleUsernameChange={handleUsername} 
+          handlePasswordChange={handlePassword} 
+        /> 
       )}
     </div>
   )
