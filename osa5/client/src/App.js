@@ -5,14 +5,18 @@ import loginService from './services/login'
 
 const App = () => {
   const [blogs, setBlogs] = useState([])
+  const [newBlog, setNewBlog] = useState('')
   const [user, setUser] = useState(null)
   const [username, setUsername] = useState('') 
   const [password, setPassword] = useState('') 
   const [errorMessage, setErrorMessage] = useState(null)
+  const [title, setTitle] = useState('')
+  const [author, setAuthor] = useState('')
+  const [url, setUrl] = useState('')
 
   useEffect(() => {
     blogService.getAll().then(blogs =>
-      setBlogs( blogs )
+      setBlogs(blogs)
     )  
   }, [])
 
@@ -31,6 +35,7 @@ const App = () => {
         username, 
         password,
       })
+      blogService.setToken(user.token)
       setUser(user)
       window.localStorage.setItem('user', JSON.stringify(user))
     } catch (exception) {
@@ -50,6 +55,15 @@ const App = () => {
     setUser(null)
   }
 
+  const handleAddBlog = (event) => {
+    event.preventDefault()
+    const b = {title, author, url}
+    blogService.create(b)
+    setTitle('')
+    setAuthor('')
+    setUrl('')
+  }
+
   return (
     <div>
       {user !== null ? (
@@ -59,6 +73,36 @@ const App = () => {
           {blogs.map(blog =>
             <Blog key={blog.id} blog={blog} />
           )}
+          <form onSubmit={handleAddBlog}>
+            <div>
+              title:
+              <input
+                type="text"
+                value={title}
+                name="Title"
+                onChange={({ target }) => setTitle(target.value)}
+              />
+            </div>
+            <div>
+              author:
+              <input
+                type="text"
+                value={author}
+                name="Author"
+                onChange={({ target }) => setAuthor(target.value)}
+              />
+            </div>
+            <div>
+              url:
+              <input
+                type="text"
+                value={url}
+                name="Url"
+                onChange={({ target }) => setUrl(target.value)}
+              />
+            </div>
+            <button type="submit">create</button>
+          </form>
           <button onClick={handleLogout}>logout</button>
         </div>
       ) : (
