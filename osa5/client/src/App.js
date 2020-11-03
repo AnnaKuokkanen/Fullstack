@@ -4,6 +4,7 @@ import BlogForm from './forms/BlogForm'
 import LoginForm from './forms/LoginForm'
 import blogService from './services/blogs'
 import loginService from './services/login'
+import Notification from './components/Notification'
 
 const App = () => {
   const [blogs, setBlogs] = useState([])
@@ -15,6 +16,7 @@ const App = () => {
   const [title, setTitle] = useState('')
   const [author, setAuthor] = useState('')
   const [url, setUrl] = useState('')
+  const [ notification, setNotification ] = useState(null)
 
   useEffect(() => {
     blogService.getAll().then(blogs =>
@@ -43,6 +45,7 @@ const App = () => {
     } catch (exception) {
       console.log('No success');
       setErrorMessage('wrong credentials')
+      notifyWith('Wrong username or password', 'error')
       setTimeout(() => {
         setErrorMessage(null)
       }, 5000)
@@ -59,11 +62,16 @@ const App = () => {
 
   const handleAddBlog = (event) => {
     event.preventDefault()
-    const b = {title, author, url}
-    blogService.create(b)
-    setTitle('')
-    setAuthor('')
-    setUrl('')
+    try {
+      const b = {title, author, url}
+      blogService.create(b)
+      notifyWith(`A new blog ${title} by ${author} added`)
+      setTitle('')
+      setAuthor('')
+      setUrl('')
+    } catch (exception) {
+      console.log('No success:', exception);
+    }
   }
 
   const handleUsername = (value) => {
@@ -86,8 +94,16 @@ const App = () => {
     setUrl(value)
   }
 
+  const notifyWith = (message, type='success') => {
+    setNotification({ message, type })
+    setTimeout(() => {
+      setNotification(null)
+    }, 5000)
+  }
+
   return (
     <div>
+      <Notification notification={notification} />
       {user !== null ? (
         <div>
           <h2>blogs</h2>
