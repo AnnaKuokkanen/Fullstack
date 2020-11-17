@@ -71,14 +71,14 @@ const App = () => {
   const handleUpdateBlog = (blogObject) => {
     try {
       blogService
-      .update(blogObject)
-      .then(returnedBlog => {
-        setBlogs(blogs.filter(b => b.id !== returnedBlog.id).concat(returnedBlog))
-      })
+        .update(blogObject)
+        .then(returnedBlog => {
+          setBlogs(blogs.filter(b => b.id !== returnedBlog.id).concat(returnedBlog))
+        })
       notifyWith(`Blog ${blogObject.title} by ${blogObject.author} updated`, 'success')
     } catch (exeption) {
       notifyWith('No success', 'error')
-    } 
+    }
   }
 
   const handleUsername = (value) => {

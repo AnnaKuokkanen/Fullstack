@@ -18,7 +18,7 @@ const Blog = ({ blog, handleUpdateBlog }) => {
       id: blogObject.id,
       title: blogObject.title,
       author: blogObject.author,
-      url: blogObject.url, 
+      url: blogObject.url,
       likes: blogObject.likes + 1,
     })
     setBlogObject(newBlog)
@@ -44,8 +44,8 @@ const Blog = ({ blog, handleUpdateBlog }) => {
         </div>
       ) : (
         <button onClick={handleShow}>view</button>
-      )} 
-  </div>
+      )}
+    </div>
   )
 }
 export default Blog
