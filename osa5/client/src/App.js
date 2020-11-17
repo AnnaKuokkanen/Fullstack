@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react'
+import React, { useState, useEffect } from 'react'
 import Blog from './components/Blog'
 import BlogForm from './forms/BlogForm'
 import LoginForm from './forms/LoginForm'
@@ -10,17 +10,16 @@ import Togglable from './components/Togglable'
 const App = () => {
   const [blogs, setBlogs] = useState([])
   const [user, setUser] = useState(null)
-  const [username, setUsername] = useState('') 
-  const [password, setPassword] = useState('') 
-  const [errorMessage, setErrorMessage] = useState(null)
-  const [ notification, setNotification ] = useState(null)
+  const [username, setUsername] = useState('')
+  const [password, setPassword] = useState('')
+  const [notification, setNotification] = useState(null)
 
   const blogFormRef = React.createRef()
 
   useEffect(() => {
     blogService.getAll().then(blogs =>
       setBlogs(blogs)
-    )  
+    )
   }, [])
 
   useEffect(() => {
@@ -29,26 +28,22 @@ const App = () => {
       const user = JSON.parse(loggedUserJSON)
       setUser(user)
     }
-  }, []) 
+  }, [])
 
   const handleLogin = async (event) => {
     event.preventDefault()
     try {
       const user = await loginService.login({
-        username, 
+        username,
         password,
       })
       blogService.setToken(user.token)
       setUser(user)
       window.localStorage.setItem('user', JSON.stringify(user))
     } catch (exception) {
-      console.log('No success');
-      setErrorMessage('wrong credentials')
-      notifyWith('Wrong username or password', 'error')
-      setTimeout(() => {
-        setErrorMessage(null)
-      }, 5000)
-    } 
+      console.log('No success')
+      notifyWith('Wrong credentials', 'error')
+    }
   }
 
   const handleLogout = (event) => {
@@ -66,7 +61,7 @@ const App = () => {
         .then(returnedBlog => {
           setBlogs(blogs.concat(returnedBlog))
         })
-      notifyWith(`A new blog ${blogObject.title} by ${blogObject.author} added`)
+      notifyWith(`A new blog ${blogObject.title} by ${blogObject.author} added`, 'success')
       blogFormRef.current.toggleVisibility()
     } catch (exception) {
       notifyWith('No success', 'error')
@@ -82,7 +77,7 @@ const App = () => {
     setPassword(value)
   }
 
-  const notifyWith = (message, type='success') => {
+  const notifyWith = (message, type) => {
     setNotification({ message, type })
     setTimeout(() => {
       setNotification(null)
@@ -92,7 +87,7 @@ const App = () => {
   const blogForm = () => (
     <Togglable buttonLabel={'new blog'} ref={blogFormRef}>
       <BlogForm handleAddBlog={handleAddBlog} />
-    </Togglable> 
+    </Togglable>
   )
 
   return (
@@ -111,13 +106,13 @@ const App = () => {
           {blogForm()}
         </div>
       ) : (
-        <LoginForm 
-          handleLogin={handleLogin} 
-          username={username} 
-          password={password} 
-          handleUsernameChange={handleUsername} 
-          handlePasswordChange={handlePassword} 
-        /> 
+        <LoginForm
+          handleLogin={handleLogin}
+          username={username}
+          password={password}
+          handleUsernameChange={handleUsername}
+          handlePasswordChange={handlePassword}
+        />
       )}
     </div>
   )

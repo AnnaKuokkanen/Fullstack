@@ -21,7 +21,7 @@ const BlogForm = ({ handleAddBlog }) => {
   const addBlog = (event) => {
     event.preventDefault()
     handleAddBlog({
-      title: title, 
+      title: title,
       author: author,
       url: url,
     })
@@ -64,7 +64,7 @@ const BlogForm = ({ handleAddBlog }) => {
         <button type="submit">create</button>
       </form>
     </div>
-  ) 
+  )
 }
 
 export default BlogForm
