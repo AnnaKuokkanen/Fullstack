@@ -37,8 +37,8 @@ const App = () => {
         username,
         password,
       })
-      blogService.setToken(user.token)
       setUser(user)
+      blogService.setToken(user.token)
       window.localStorage.setItem('user', JSON.stringify(user))
     } catch (exception) {
       console.log('No success')

@@ -28,7 +28,6 @@ module.exports = {
             "error",
             "single"
         ],
-        "react/display-name": "off",
         "semi": [
             "error",
             "never"
