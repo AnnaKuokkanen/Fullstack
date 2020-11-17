@@ -1,8 +1,9 @@
 import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 
-const Blog = ({ blog }) => {
+const Blog = ({ blog, handleUpdateBlog }) => {
   const [show, setShow] = useState(false)
+  const [blogObject, setBlogObject] = useState(blog)
 
   Blog.propTypes = {
     blog: PropTypes.object.isRequired
@@ -10,6 +11,18 @@ const Blog = ({ blog }) => {
 
   const handleShow = () => {
     setShow(!show)
+  }
+
+  const handleLike = () => {
+    const newBlog= ({
+      id: blogObject.id,
+      title: blogObject.title,
+      author: blogObject.author,
+      url: blogObject.url, 
+      likes: blogObject.likes + 1,
+    })
+    setBlogObject(newBlog)
+    handleUpdateBlog(newBlog)
   }
 
   const blogStyle = {
@@ -26,7 +39,7 @@ const Blog = ({ blog }) => {
       {show ? (
         <div>
           {blog.url}
-          <p>likes {blog.likes}</p><button>like</button>
+          <p>likes {blog.likes}</p><button onClick={handleLike}>like</button>
           <button onClick={handleShow}>hide</button>
         </div>
       ) : (

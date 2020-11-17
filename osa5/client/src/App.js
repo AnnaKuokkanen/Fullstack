@@ -65,8 +65,20 @@ const App = () => {
       blogFormRef.current.toggleVisibility()
     } catch (exception) {
       notifyWith('No success', 'error')
-      //console.log('No success:', exception);
     }
+  }
+
+  const handleUpdateBlog = (blogObject) => {
+    try {
+      blogService
+      .update(blogObject)
+      .then(returnedBlog => {
+        setBlogs(blogs.filter(b => b.id !== returnedBlog.id).concat(returnedBlog))
+      })
+      notifyWith(`Blog ${blogObject.title} by ${blogObject.author} updated`, 'success')
+    } catch (exeption) {
+      notifyWith('No success', 'error')
+    } 
   }
 
   const handleUsername = (value) => {
@@ -100,8 +112,8 @@ const App = () => {
             {user.name} logged in
             <button onClick={handleLogout}>logout</button>
           </p>
-          {blogs.map(blog =>
-            <Blog key={blog.id} blog={blog} />
+          {blogs.sort((a, b) => a.likes < b.likes ? 1 : -1).map(blog =>
+            <Blog key={blog.id} blog={blog} handleUpdateBlog={handleUpdateBlog} />
           )}
           {blogForm()}
         </div>
