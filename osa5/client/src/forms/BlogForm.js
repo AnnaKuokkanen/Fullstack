@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react'
 const BlogForm = ({ handleAddBlog, title, author, url, handleTitleChange, handleAuthorChange, handleUrlChange }) => {
   return (
     <div>
+      <h2>Create new</h2>
       <form onSubmit={handleAddBlog}>
         <div>
           title:

@@ -5,10 +5,10 @@ import LoginForm from './forms/LoginForm'
 import blogService from './services/blogs'
 import loginService from './services/login'
 import Notification from './components/Notification'
+import Togglable from './components/Togglable'
 
 const App = () => {
   const [blogs, setBlogs] = useState([])
-  const [newBlog, setNewBlog] = useState('')
   const [user, setUser] = useState(null)
   const [username, setUsername] = useState('') 
   const [password, setPassword] = useState('') 
@@ -70,6 +70,7 @@ const App = () => {
       setAuthor('')
       setUrl('')
     } catch (exception) {
+      notifyWith('No success', 'error')
       console.log('No success:', exception);
     }
   }
@@ -111,16 +112,16 @@ const App = () => {
           {blogs.map(blog =>
             <Blog key={blog.id} blog={blog} />
           )}
-
-          <BlogForm 
-            handleAddBlog={handleAddBlog} 
-            title={title} 
-            author={author} url={url} 
-            handleTitleChange={handleTitle} 
-            handleAuthorChange={handleAuthor} 
-            handleUrlChange={handleUrl} 
-          />
-
+          <Togglable buttonLabel={'new blog'}>
+            <BlogForm 
+              handleAddBlog={handleAddBlog} 
+              title={title} 
+              author={author} url={url} 
+              handleTitleChange={handleTitle} 
+              handleAuthorChange={handleAuthor} 
+              handleUrlChange={handleUrl} 
+            />
+          </Togglable> 
           <button onClick={handleLogout}>logout</button>
         </div>
       ) : (
