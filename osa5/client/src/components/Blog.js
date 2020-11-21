@@ -1,7 +1,7 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import PropTypes from 'prop-types'
 
-const Blog = ({ blog, handleUpdateBlog }) => {
+const Blog = ({ blog, handleUpdateBlog, handleRemoveBlog, currentUser }) => {
   const [show, setShow] = useState(false)
   const [blogObject, setBlogObject] = useState(blog)
 
@@ -21,26 +21,21 @@ const Blog = ({ blog, handleUpdateBlog }) => {
       url: blogObject.url,
       likes: blogObject.likes + 1,
     })
-    setBlogObject(newBlog)
     handleUpdateBlog(newBlog)
-  }
-
-  const blogStyle = {
-    paddingTop: 10,
-    paddingLeft: 2,
-    border: 'solid',
-    borderWidth: 1,
-    marginBottom: 5
+    setBlogObject(newBlog)
   }
 
   return (
-    <div style={blogStyle}>
+    <div className='blogStyle'>
       <p>{blog.title} by {blog.author}</p>
       {show ? (
         <div>
           {blog.url}
           <p>likes {blog.likes}</p><button onClick={handleLike}>like</button>
           <button onClick={handleShow}>hide</button>
+          {blog.user.id === currentUser.id ? (
+            <button className='remove' onClick={() => handleRemoveBlog(blog)}>remove</button>
+          ) : null} 
         </div>
       ) : (
         <button onClick={handleShow}>view</button>

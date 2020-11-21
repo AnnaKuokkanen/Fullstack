@@ -27,6 +27,7 @@ const App = () => {
     if (loggedUserJSON) {
       const user = JSON.parse(loggedUserJSON)
       setUser(user)
+      blogService.setToken(user.token)
     }
   }, [])
 
@@ -81,6 +82,20 @@ const App = () => {
     }
   }
 
+  const handleRemoveBlog = (blogObject) => {
+    console.log('Removing object', blogObject);
+    try {
+      if (window.confirm('Are u sure?')) {
+        blogService
+          .remove(blogObject)
+          .then(setBlogs(blogs.filter(b => b.id !== blogObject.id)))
+        notifyWith(`Blog ${blogObject.title} by ${blogObject.author} deleted`, 'success')
+      }
+    } catch (exception) {
+      notifyWith('No success', 'error')
+    }
+  }
+
   const handleUsername = (value) => {
     setUsername(value)
   }
@@ -113,7 +128,7 @@ const App = () => {
             <button onClick={handleLogout}>logout</button>
           </p>
           {blogs.sort((a, b) => a.likes < b.likes ? 1 : -1).map(blog =>
-            <Blog key={blog.id} blog={blog} handleUpdateBlog={handleUpdateBlog} />
+            <Blog key={blog.id} blog={blog} handleUpdateBlog={handleUpdateBlog} handleRemoveBlog={handleRemoveBlog} currentUser={user} />
           )}
           {blogForm()}
         </div>

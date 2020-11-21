@@ -19,8 +19,24 @@
 }  
 
 button {
-  background-color: white;
-  border-color: darkgray;
+  background-color: #80B1F2;
+  border-color: darkblue;
+  border-style: dotted;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  margin-left: 10px;
+  margin-right: 10px;
+  padding: 5px;
+}
+
+.remove {
+  background-color: lightcoral;
+  border-color: lightcoral;
+  border-style: solid;
+}
+
+.blogStyle {
+  background-color: #C6F8FB;
   border-style: dotted;
   margin-top: 10px;
   margin-bottom: 10px;
