@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 
 const Blog = ({ blog, handleUpdateBlog, handleRemoveBlog, currentUser }) => {
@@ -33,7 +33,7 @@ const Blog = ({ blog, handleUpdateBlog, handleRemoveBlog, currentUser }) => {
           {blog.url}
           <p>likes {blog.likes}</p><button onClick={handleLike}>like</button>
           <button onClick={handleShow}>hide</button>
-          {blog.user.id === currentUser.id ? (
+          {currentUser.blogs.includes(blog.id) ? (
             <button className='remove' onClick={() => handleRemoveBlog(blog)}>remove</button>
           ) : null} 
         </div>
