@@ -47,8 +47,6 @@ const App = () => {
     }
   }
 
-  console.log('User is ', user);
-
   const handleLogout = (event) => {
     event.preventDefault()
     setUsername('')
