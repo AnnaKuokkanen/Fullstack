@@ -24,8 +24,37 @@ test('Title and author are rendered automatically, but likes and url are not', (
 
 test('Url and likes are shown when the view button is clicked', () => {
   const blog = {
-    title: 'title',
-    author: 'author',
+    title: 'Title',
+    author: 'Author',
+    likes: 1000,
+    url: 'url.com',
+  }
+
+  const user = {
+    username: 'uname',
+    name: 'name', 
+    blogs: [blog],
+  }
+  
+  const component = render(
+    <Blog blog={blog} currentUser={user} />
+  )
+
+  component.debug()
+
+  const button = component.getByText("view")
+  fireEvent.click(button)
+
+  expect(component.container).toHaveTextContent('Title')
+  expect(component.container).toHaveTextContent('Author')
+  expect(component.container).toHaveTextContent('url.com')
+  expect(component.container).toHaveTextContent('1000')
+})
+
+test('If like-button is pressed twice, the handler is called twice', () => {
+  const blog = {
+    title: 'Title',
+    author: 'Author',
     likes: 1000,
     url: 'url.com',
   }
@@ -39,14 +68,15 @@ test('Url and likes are shown when the view button is clicked', () => {
   const mockHandler = jest.fn()
 
   const component = render(
-    <Blog blog={blog} currentUser={user} />
+    <Blog blog={blog} handleUpdateBlog={mockHandler} currentUser={user} />
   )
 
-  component.debug()
+  const viewButton = component.getByText('view')
+  fireEvent.click(viewButton)
 
-  const button = component.getByText("view")
-  fireEvent.click(button)
-
-  expect(component.container).toHaveTextContent('url.com')
-  expect(component.container).toHaveTextContent('1000')
+  const likeButton = component.getByText('like')
+  fireEvent.click(likeButton)
+  fireEvent.click(likeButton)
+  
+  expect(mockHandler.mock.calls.length).toBe(2)
 })
