@@ -10,6 +10,7 @@ server/.env
 
 # testing
 /coverage
+client/cypress/videos/
 
 # production
 /build
