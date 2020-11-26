@@ -31,14 +31,14 @@ const Blog = ({ blog, handleUpdateBlog, handleRemoveBlog, currentUser }) => {
       {show ? (
         <div>
           {blog.url}
-          <p>likes {blog.likes}</p><button onClick={handleLike}>like</button>
+          <p>likes {blog.likes}</p><button id="like-blog-button" onClick={handleLike}>like</button>
           <button onClick={handleShow}>hide</button>
           {currentUser.blogs.includes(blog.id) ? (
             <button className='remove' onClick={() => handleRemoveBlog(blog)}>remove</button>
           ) : null} 
         </div>
       ) : (
-        <button onClick={handleShow}>view</button>
+        <button id="view-blog-button" onClick={handleShow}>view</button>
       )}
     </div>
   )
