@@ -58,11 +58,25 @@ describe('Blog app', function() {
       cy.contains('some title by some author').parent().contains('likes 1')
     })
 
-    it.only('User can delete a blog', () => {
+    it('User can delete a blog', () => {
       cy.contains('some title by some author').parent().find('#view-blog-button').click()
       cy.contains('some title by some author').parent().find('#remove-blog-button').click()
 
       cy.contains('some title by some author').contains('#view-blog-button').should('not.exist')
+    })
+
+    it('Blogs are oredered by likes', () => {
+      cy.contains('some title by some author').parent().find('#view-blog-button').click()
+      cy.contains('some title by some author').parent().find('#like-blog-button').click()
+      
+      cy.request('GET', 'http://localhost:3003/api/blogs')
+        .then(({ body }) => {
+          const blogs = body
+          const sorted = body.sort((a, b) => a.likes < b.likes ? 1 : -1)
+          expect(blogs).to.eq(sorted)
+        })
+
+      cy.visit('http://localhost:3000')
     })
   })
 })
