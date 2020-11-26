@@ -38,6 +38,7 @@ describe('Blog app', function() {
       cy.login({ username: 'anna', password: 'password' })
       cy.createBlog({ title: 'some title', author: 'some author', url: 'someurl.com' })
       cy.createBlog({ title: 'another title', author: 'another author', url: 'anotherurl.com' })
+      cy.login({ username: 'anna', password: 'password' })
     })
 
     it('Blog can be added', () => {
@@ -55,6 +56,13 @@ describe('Blog app', function() {
       cy.contains('some title by some author').parent().find('#view-blog-button').click()
       cy.contains('some title by some author').parent().find('#like-blog-button').click()
       cy.contains('some title by some author').parent().contains('likes 1')
+    })
+
+    it.only('User can delete a blog', () => {
+      cy.contains('some title by some author').parent().find('#view-blog-button').click()
+      cy.contains('some title by some author').parent().find('#remove-blog-button').click()
+
+      cy.contains('some title by some author').contains('#view-blog-button').should('not.exist')
     })
   })
 })

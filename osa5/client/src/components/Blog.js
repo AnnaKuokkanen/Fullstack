@@ -34,7 +34,7 @@ const Blog = ({ blog, handleUpdateBlog, handleRemoveBlog, currentUser }) => {
           <p>likes {blog.likes}</p><button id="like-blog-button" onClick={handleLike}>like</button>
           <button onClick={handleShow}>hide</button>
           {currentUser.blogs.includes(blog.id) ? (
-            <button className='remove' onClick={() => handleRemoveBlog(blog)}>remove</button>
+            <button id="remove-blog-button" className='remove' onClick={() => handleRemoveBlog(blog)}>remove</button>
           ) : null} 
         </div>
       ) : (
