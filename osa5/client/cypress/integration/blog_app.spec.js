@@ -36,8 +36,9 @@ describe('Blog app', function() {
   describe('When logged in', function() {
     beforeEach(function() {
       cy.login({ username: 'anna', password: 'password' })
-      cy.createBlog({ title: 'some title', author: 'some author', url: 'someurl.com' })
-      cy.createBlog({ title: 'another title', author: 'another author', url: 'anotherurl.com' })
+      cy.createBlog({ title: 'some title', author: 'some author', url: 'someurl.com', likes: 0 })
+      cy.createBlog({ title: 'another title', author: 'another author', url: 'anotherurl.com', likes: 2 })
+      cy.createBlog({ title: 'third title', author: 'third author', url: 'thirdurl.com', likes: 3 })
       cy.login({ username: 'anna', password: 'password' })
     })
 
@@ -68,7 +69,7 @@ describe('Blog app', function() {
     it('Blogs are oredered by likes', () => {
       cy.contains('some title by some author').parent().find('#view-blog-button').click()
       cy.contains('some title by some author').parent().find('#like-blog-button').click()
-      
+
       cy.request('GET', 'http://localhost:3003/api/blogs')
         .then(({ body }) => {
           const blogs = body
