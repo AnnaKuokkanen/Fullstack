@@ -34,7 +34,7 @@ const LoginForm = ({ handleLogin, username, password, handleUsernameChange, hand
             onChange={({ target }) => handlePasswordChange(target.value)}
           />
         </div>
-        <button type="submit">login</button>
+        <button id="login-button" type="submit">login</button>
       </form>
     </div>
   )
