@@ -32,13 +32,25 @@ const App = () => {
 
   return (
     <div>
+      <h2>Give feedback</h2>
       <button onClick={good}>good</button> 
       <button onClick={ok}>neutral</button> 
       <button onClick={bad}>bad</button>
       <button onClick={zero}>reset stats</button>
-      <div>good {store.getState().good}</div>
-      <div>neutral {store.getState().ok}</div>
-      <div>bad {store.getState().bad}</div>
+
+      {store.getState().good + store.getState().bad + store.getState().ok > 0 ? (
+        <div>
+          <h2>Statistics</h2>
+          <div>good {store.getState().good}</div>
+          <div>neutral {store.getState().ok}</div>
+          <div>bad {store.getState().bad}</div>
+          <div>all {store.getState().all}</div>
+          <div>average {store.getState().average}</div>
+          <div>positive {store.getState().positive} %</div>
+        </div>
+      ) : (
+        <p>no feedback given</p>
+      )}
     </div>
   )
 }
