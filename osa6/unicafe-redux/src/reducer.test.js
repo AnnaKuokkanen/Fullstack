@@ -5,7 +5,10 @@ describe('unicafe reducer', () => {
   const initialState = {
     good: 0,
     ok: 0,
-    bad: 0
+    bad: 0, 
+    all: 0, 
+    average: 0, 
+    positive: 0
   }
 
   test('should return a proper initial state when called with undefined state', () => {
@@ -29,7 +32,10 @@ describe('unicafe reducer', () => {
     expect(newState).toEqual({
       good: 1,
       ok: 0,
-      bad: 0
+      bad: 0, 
+      all: 1,
+      average: 1,
+      positive: 100
     })
   })
 
@@ -44,7 +50,10 @@ describe('unicafe reducer', () => {
     expect(newState).toEqual({
       good: 0, 
       ok: 1, 
-      bad: 0
+      bad: 0, 
+      all: 1, 
+      average: 0, 
+      positive: 0
     })
   })
 
@@ -59,7 +68,10 @@ describe('unicafe reducer', () => {
     expect(newState).toEqual({
       good: 0,
       ok: 0,
-      bad: 1
+      bad: 1, 
+      all: 1,
+      average: -1,
+      positive: 0
     })
   })
 
@@ -70,7 +82,10 @@ describe('unicafe reducer', () => {
     const state = {
       good: 2,
       ok: 2, 
-      bad: 2
+      bad: 2, 
+      all: 6, 
+      average: 0, 
+      positive: 1/3
     }
 
     deepFreeze(state)
@@ -78,7 +93,10 @@ describe('unicafe reducer', () => {
     expect(newState).toEqual({
       good: 0,
       ok: 0,
-      bad: 0
+      bad: 0, 
+      all: 0, 
+      average: 0, 
+      positive: 0
     })
   })
 })
