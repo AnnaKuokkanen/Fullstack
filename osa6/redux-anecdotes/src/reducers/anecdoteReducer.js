@@ -28,14 +28,14 @@ const reducer = (state = initialState, action) => {
       const id = action.data.id
       const anecdote = state.find(a => a.id === id)
 
-      console.log('Anecdote to vote for', anecdote)
+      //console.log('Anecdote to vote for', anecdote)
 
       const newAnecdote = { ...anecdote, votes: anecdote.votes + 1 }
       const newState = state.map(next => next.id !== action.data.id ? next : newAnecdote) 
       
       return newState.sort((a, b) => a.votes < b.votes ? 1 : -1)
     case 'ADD_NEW':
-      console.log('Anecdote to add', action.data)
+      //console.log('Anecdote to add', action.data)
 
       const newAnecdotes = [...state, action.data]
 
@@ -46,7 +46,7 @@ const reducer = (state = initialState, action) => {
 }
 
 export const voteFor = (id) => {
-  console.log('id', id)
+  //console.log('id', id)
   return {
     type: 'VOTE', 
     data: { id }
@@ -54,7 +54,7 @@ export const voteFor = (id) => {
 }
 
 export const newAnecdote = (content) => {
-  console.log('content', content)
+  //console.log('content', content)
   return {
     type: 'ADD_NEW', 
     data: {
