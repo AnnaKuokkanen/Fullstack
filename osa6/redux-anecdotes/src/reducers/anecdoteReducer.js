@@ -32,11 +32,15 @@ const reducer = (state = initialState, action) => {
 
       const newAnecdote = { ...anecdote, votes: anecdote.votes + 1 }
       const newState = state.map(next => next.id !== action.data.id ? next : newAnecdote) 
+      
       return newState.sort((a, b) => a.votes < b.votes ? 1 : -1)
     case 'ADD_NEW':
-      console.log('Anecdote to add', action.data);
+      console.log('Anecdote to add', action.data)
+
       const newAnecdotes = [...state, action.data]
+
       return newAnecdotes.sort((a, b) => a.votes < b.votes ? 1 : -1)
+
     default: return state.sort((a, b) => a.votes < b.votes ? 1 : -1)
   }
 }
