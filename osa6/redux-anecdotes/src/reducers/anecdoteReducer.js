@@ -28,25 +28,22 @@ const reducer = (state = initialState, action) => {
       const id = action.data.id
       const anecdote = state.find(a => a.id === id)
 
-      //console.log('Anecdote to vote for', anecdote)
-
       const newAnecdote = { ...anecdote, votes: anecdote.votes + 1 }
       const newState = state.map(next => next.id !== action.data.id ? next : newAnecdote) 
       
       return newState.sort((a, b) => a.votes <= b.votes ? 1 : -1)
     case 'ADD_NEW':
-      //console.log('Anecdote to add', action.data)
-
       const newAnecdotes = [...state, action.data]
 
       return newAnecdotes.sort((a, b) => a.votes <= b.votes ? 1 : -1)
+    case 'INIT_ANECDOTES':
+      return action.data
 
     default: return state.sort((a, b) => a.votes <= b.votes ? 1 : -1)
   }
 }
 
 export const voteFor = (id) => {
-  //console.log('id', id)
   return {
     type: 'VOTE', 
     data: { id }
@@ -54,7 +51,6 @@ export const voteFor = (id) => {
 }
 
 export const newAnecdote = (content) => {
-  //console.log('content', content)
   return {
     type: 'ADD_NEW', 
     data: {
@@ -62,6 +58,13 @@ export const newAnecdote = (content) => {
       votes: 0, 
       id: getId()
     }
+  }
+}
+
+export const initializeAnecdotes = (anecdotes) => {
+  return {
+    type: 'INIT_ANECDOTES',
+    data: anecdotes
   }
 }
 
