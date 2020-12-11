@@ -12,3 +12,5 @@ export const store = createStore(
   reducer, 
   composeWithDevTools()
 )
+
+export default reducer
