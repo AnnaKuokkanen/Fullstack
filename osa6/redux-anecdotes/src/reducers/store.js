@@ -3,10 +3,12 @@ import thunk from 'redux-thunk'
 import { composeWithDevTools } from 'redux-devtools-extension'
 import anecdoteRducer from './anecdoteReducer'
 import notificationReducer from './notificationReducer'
+import filterReducer from './filterReducer'
 
 const reducer = combineReducers({
   anecdotes: anecdoteRducer, 
-  notification: notificationReducer
+  notification: notificationReducer,
+  filter: filterReducer
 })  
 
 export const store = createStore(
