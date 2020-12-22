@@ -8,10 +8,14 @@ const reducer = (state = '', action) => {
   }
 }
 
+let timerId
 export const notifyWith = (notification, seconds) => {
   return async dispatch => {
     const time = seconds * 1000
-    setTimeout(() => {
+    if (timerId !== undefined) {
+      clearTimeout(timerId)
+    }
+    timerId = setTimeout(() => {
       dispatch({
         type: 'SET_NOTIFICATION',
         notification: ''
