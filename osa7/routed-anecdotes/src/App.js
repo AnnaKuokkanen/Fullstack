@@ -70,7 +70,6 @@ const CreateNew = (props) => {
   const [author, setAuthor] = useState('')
   const [info, setInfo] = useState('')
 
-
   const handleSubmit = (e) => {
     e.preventDefault()
     props.addNew({
@@ -127,6 +126,10 @@ const App = () => {
   const addNew = (anecdote) => {
     anecdote.id = (Math.random() * 10000).toFixed(0)
     setAnecdotes(anecdotes.concat(anecdote))
+    setNotification(`New anecdote ${anecdote.content} created!`)
+    setTimeout(() => {
+      setNotification('')
+    }, 10000)
   }
 
   const anecdoteById = (id) =>
@@ -143,25 +146,24 @@ const App = () => {
     setAnecdotes(anecdotes.map(a => a.id === id ? voted : a))
   }
 
-  console.log('Anecdotes are', anecdotes)
-  
   const match = useRouteMatch('/anecdotes/:id')
   const anecdote = match 
     ? anecdotes.find(a => a.id === match.params.id)
     : null
 
-  console.log('Anecdote is', anecdote)
-
   return (
     <div>
       <h1>Software anecdotes</h1>
       <Menu />
+      <p>{notification}</p>
       <Switch>
         <Route path="/anecdotes/:id">
           <Anecdote anecdote={anecdote} />
         </Route>
         <Route path="/create">
-          <CreateNew addNew={addNew} />
+          {notification === '' ? 
+          <CreateNew addNew={addNew} /> : 
+          <Redirect to="/" />}
         </Route>
         <Route path="/about">
           <About />
