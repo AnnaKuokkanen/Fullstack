@@ -1,12 +1,12 @@
 import React, { useState } from 'react'
 import {
-  BrowserRouter as Router,
   Switch, 
   Route, 
   Link, 
   useRouteMatch,
   Redirect
 } from "react-router-dom"
+import useField from './hooks'
 
 
 const Menu = () => {
@@ -66,15 +66,19 @@ const Footer = () => (
 )
 
 const CreateNew = (props) => {
-  const [content, setContent] = useState('')
-  const [author, setAuthor] = useState('')
-  const [info, setInfo] = useState('')
+  const cont = useField('content')
+  const auth = useField('author')
+  const url = useField('info')
 
   const handleSubmit = (e) => {
     e.preventDefault()
+    const content = cont.value
+    const author = auth.value
+    const info = url.value
+
     props.addNew({
-      content,
-      author,
+      content, 
+      author, 
       info,
       votes: 0
     })
@@ -86,21 +90,32 @@ const CreateNew = (props) => {
       <form onSubmit={handleSubmit}>
         <div>
           content
-          <input name='content' value={content} onChange={(e) => setContent(e.target.value)} />
+          <input 
+            name={cont.name}
+            value={cont.value}
+            onChange={cont.onChange}
+          />
         </div>
         <div>
           author
-          <input name='author' value={author} onChange={(e) => setAuthor(e.target.value)} />
+          <input 
+            name={auth.name}
+            value={auth.value}
+            onChange={auth.onChange}
+          />
         </div>
         <div>
           url for more info
-          <input name='info' value={info} onChange={(e)=> setInfo(e.target.value)} />
+          <input 
+            name={url.name}
+            value={url.value}
+            onChange={url.onChange}
+          />
         </div>
         <button>create</button>
       </form>
     </div>
   )
-
 }
 
 const App = () => {
@@ -177,4 +192,4 @@ const App = () => {
   )
 }
 
-export default App;
+export default App
