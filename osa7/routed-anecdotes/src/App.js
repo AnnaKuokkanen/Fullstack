@@ -84,6 +84,12 @@ const CreateNew = (props) => {
     })
   }
 
+  const handleReset = () => {
+    cont.onReset()
+    auth.onReset()
+    url.onReset()
+  }
+
   return (
     <div>
       <h2>create a new anecdote</h2>
@@ -101,6 +107,7 @@ const CreateNew = (props) => {
           <input {...url} />
         </div>
         <button>create</button>
+        <input type="button" value="reset" onClick={handleReset}/>
       </form>
     </div>
   )
